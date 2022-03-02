@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class HellowWordServlet extends HttpServlet {
+public class HelloWordServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,HttpServletResponse response) throws IOException {
         PrintWriter writer = response.getWriter();

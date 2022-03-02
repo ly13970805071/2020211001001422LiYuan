@@ -5,10 +5,10 @@
          version="4.0">
     <servlet>
         <servlet-name>anyName</servlet-name>
-        <servlet-class>com.LiYuan.week2.demo.HellowWordServlet</servlet-class>
+        <servlet-class>com.LiYuan.week2.demo.HelloWordServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>anyName</servlet-name>
-        <url-pattern>hellow</url-pattern>
+        <url-pattern>/hello</url-pattern>
     </servlet-mapping>
 </web-app>
