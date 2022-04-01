@@ -19,7 +19,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        ServletContext context = getServletContext();
+        /*ServletContext context = getServletContext();
         String driver = context.getInitParameter("driver");
         String url = context.getInitParameter("url");
         String username = context.getInitParameter("username");
@@ -33,42 +33,15 @@ public class RegisterServlet extends HttpServlet {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        con = (Connection) getServletContext().getAttribute("con");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*String sql = "insert into usertable values(?,?,?,?,?,?)";
-        String sql1 = "select * from usertable";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, 1);
-            ps.setString(2, "Li Yuan");
-            ps.setString(3, "ly123456");
-            ps.setString(4, "2229211937@qq.com");
-            ps.setString(5, "male");
-            ps.setDate(6, Date.valueOf("2001-08-02"));
-            ps.executeUpdate();
-            ps.close();
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql1);
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String username = rs.getString("username");
-                String password = rs.getString("password");
-                String email = rs.getString("email");
-                String gender = rs.getString("gender");
-                Date birthdate = rs.getDate("birthdate");
 
-                PrintWriter writer = response.getWriter();
-                writer.println("<br> " + id + "  " + username + "  " + password + "  " + email + "  " + gender + "  " + birthdate);
-            }
-            stmt.close();
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-
+        doPost(request, response);
     }
 
     @Override
@@ -79,9 +52,8 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String gender = request.getParameter("gender");
         String birthDate = request.getParameter("birthDate");
-        PrintWriter writer = response.getWriter();
+        PrintWriter out = response.getWriter();
 
-//        String sql1 = "select * from usertable";
         try {
             sql = "insert into usertable values(?,?,?,?,?,?)";
             ps = con.prepareStatement(sql);
@@ -92,38 +64,55 @@ public class RegisterServlet extends HttpServlet {
             ps.setString(5, gender);
             ps.setDate(6, Date.valueOf(birthDate));
             ps.executeUpdate();
-//            ps.close();
-            sql = "select * from usertable";
+
+            /*sql = "select * from usertable";
             stmt = con.createStatement();
             rs = stmt.executeQuery(sql);
-            writer.println("Registration information in the database!!!");
-            writer.println("ID\t\tUsername\t\tPassword\t\tEmail\t\tGender\t\tBirthdate");
+            out.println("Registration information in the database!!!");*/
+//            out.println("ID\t\tUsername\t\tPassword\t\tEmail\t\tGender\t\tBirthdate");
+            /*out.println("<html><head><title></title></head><table border=1><tr>");
+            out.println("<th>ID</th><th>Username</th><th>Password</th><th>Email</th><th>Gender</th><th>Birthdate</th></tr>");
             while (rs.next()) {
-                int ID = rs.getInt("id");
+                *//*int ID = rs.getInt("id");
                 String Username = rs.getString("username");
                 String Password = rs.getString("password");
                 String Email = rs.getString("email");
                 String Gender = rs.getString("gender");
-                Date Birthdate = rs.getDate("birthdate");
+                Date Birthdate = rs.getDate("birthdate");*//*
 
 //                PrintWriter writer = response.getWriter();
-                writer.println(ID + "\t\t" + Username + "\t\t" + Password + "\t\t" + Email + "\t\t" + Gender + "\t\t" + Birthdate);
+//                out.println(ID + "\t\t" + Username + "\t\t" + Password + "\t\t" + Email + "\t\t" + Gender + "\t\t" + Birthdate);
+                out.println("<tr>");
+                out.println("<td>" + rs.getInt("id") + "</td>");
+                out.println("<td>" + rs.getString("username") + "</td>");
+                out.println("<td>" + rs.getString("password") + "</td>");
+                out.println("<td>" + rs.getString("email") + "</td>");
+                out.println("<td>" + rs.getString("gender") + "</td>");
+                out.println("<td>" + rs.getDate("birthdate") + "</td>");
+                out.println("</tr>");
+
             }
+            out.println("</table></body></html>");*/
+
+            /*request.setAttribute("rsname",rs);
+            request.getRequestDispatcher("userList.jsp").forward(request,response);
+            System.out.println("I am in Register -->doPost() --> after forward()");
             ps.close();
             stmt.close();
-            con.close();
+            con.close();*/
+            response.sendRedirect("login.jsp");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        writer.println("\n\n\n");
+        /*writer.println("\n\n\n");
         writer.println("Information of this registration!!!");
         writer.println("username:" + username);
         writer.println("password:" + password);
         writer.println("Email:" + email);
         writer.println("gender:" + gender);
         writer.println("birthDate:" + birthDate);
-        writer.close();
+        writer.close();*/
 
     }
 }
