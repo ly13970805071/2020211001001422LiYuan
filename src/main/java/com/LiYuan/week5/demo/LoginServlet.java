@@ -58,14 +58,38 @@ public class LoginServlet extends HttpServlet {
                 /*out.println("<br> Login Success!!!");
                 out.println("<br> Welcome " + user.getUsername());*/
 
-                request.setAttribute("user", user);
+                Cookie c = new Cookie("sessionid", "" + user.getId());
+                c.setMaxAge(10 * 60);
+                response.addCookie(c);
+
+                String rememberMe = request.getParameter("rememberMe");
+                if (rememberMe != null && rememberMe.equals("1")) {
+                    Cookie usernameCookie = new Cookie("cUsername", user.getUsername());
+                    Cookie passwordCookie = new Cookie("cPassword", user.getPassword());
+                    Cookie rememberMeCookie = new Cookie("cRememberMe", rememberMe);
+
+                    usernameCookie.setMaxAge(5);
+                    passwordCookie.setMaxAge(5);
+                    rememberMeCookie.setMaxAge(5);
+
+                    response.addCookie(usernameCookie);
+                    response.addCookie(passwordCookie);
+                    response.addCookie(rememberMeCookie);
+                }
+
+                HttpSession session = request.getSession();
+                System.out.println("session id -->" + session.getId());
+                session.setMaxInactiveInterval(10);
+
+
+                session.setAttribute("user", user);
                 request.getRequestDispatcher("WEB-INF/views/userInfo.jsp").forward(request, response);
             } else {
 //                out.println("<br> Username or password is Error!!!");
                 request.setAttribute("message", "Username or Password is Error!!!");
                 request.getRequestDispatcher("WEB-INF/views/login.jsp").forward(request, response);
             }
-            ps.close();
+//            ps.close();
 //            stmt.close();
 //            con.close();
         } catch (Exception e) {
