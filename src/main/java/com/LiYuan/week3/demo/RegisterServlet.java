@@ -40,29 +40,28 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        doPost(request, response);
+        request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+//        int id = Integer.parseInt(request.getParameter("id"));
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String gender = request.getParameter("gender");
-        String birthDate = request.getParameter("birthDate");
+        String birthDate = request.getParameter("birthdate");
         PrintWriter out = response.getWriter();
 
         try {
-            sql = "insert into usertable values(?,?,?,?,?,?)";
+            sql = "insert into usertable values(?,?,?,?,?)";
             ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.setString(2, username);
-            ps.setString(3, password);
-            ps.setString(4, email);
-            ps.setString(5, gender);
-            ps.setDate(6, Date.valueOf(birthDate));
+//            ps.setInt(1, id);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.setString(4, gender);
+            ps.setDate(5, Date.valueOf(birthDate));
             ps.executeUpdate();
 
             /*sql = "select * from usertable";
@@ -100,7 +99,7 @@ public class RegisterServlet extends HttpServlet {
             ps.close();
             stmt.close();
             con.close();*/
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("login");
         } catch (SQLException e) {
             e.printStackTrace();
         }
