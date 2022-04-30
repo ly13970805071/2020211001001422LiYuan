@@ -4,7 +4,7 @@ import java.io.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
+@WebServlet(name = "HelloServlet", value = "/hello-servlet")
 public class HelloServlet extends HttpServlet {
     private String message;
 
@@ -13,6 +13,7 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("I am in HelloServlet --> doGet()");
         response.setContentType("text/html");
 
         // Hello
