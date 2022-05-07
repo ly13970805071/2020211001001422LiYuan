@@ -19,11 +19,11 @@ public class AdminHomeServlet extends HttpServlet {
             } else {
                 session.invalidate();
                 request.setAttribute("message", "Unauthorized Access admin module!!!");
-                request.getRequestDispatcher("WEB-INF/views/login.jsp").forward(request, response);
+                request.getRequestDispatcher("../WEB-INF/views/login.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("message", "Please Login as admin!!!");
-            request.getRequestDispatcher("WEB-INF/views/login.jsp").forward(request, response);
+            request.getRequestDispatcher("../WEB-INF/views/login.jsp").forward(request, response);
         }
     }
 
