@@ -65,26 +65,30 @@ public class Category {
                 '}';
     }
 
-    public static List<Category> findAllCategory(Connection con) throws SQLException {
+    public static List<Category> findAllCategory(Connection con) {
         String sql = "select * from Category";
         List<Category> list = new ArrayList<Category>();
-        PreparedStatement pstm = con.prepareStatement(sql);
-        ResultSet rs = pstm.executeQuery();
-        while (rs.next()) {
-            Category c = new Category();
-            c.setCategory(rs.getInt("categoryId"));
-            c.setCategoryName(rs.getString("categoryName"));
-            c.setDescription(rs.getString("description"));
-            list.add(c);
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                Category c = new Category();
+                c.setCategory(rs.getInt("categoryId"));
+                c.setCategoryName(rs.getString("categoryName"));
+                c.setDescription(rs.getString("description"));
+                list.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return list;
     }
 
-    public static String findByCategoryId(Connection con,int categoryId) throws SQLException {
+    public static String findByCategoryId(Connection con, int categoryId) throws SQLException {
         String sql = "select * from Category where categoryId=?";
         String categoryName = null;
         PreparedStatement pstm = con.prepareStatement(sql);
-        pstm.setInt(1,categoryId);
+        pstm.setInt(1, categoryId);
         ResultSet rs = pstm.executeQuery();
         while (rs.next()) {
             categoryName = rs.getString("categoryName");

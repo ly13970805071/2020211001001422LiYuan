@@ -26,15 +26,11 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            List<Category> categoryList = Category.findAllCategory(con);
-            request.setAttribute("categoryList", categoryList);
+        List<Category> categoryList = Category.findAllCategory(con);
+        request.setAttribute("categoryList", categoryList);
 
-            String path = "/WEB-INF/views/admin/addProduct.jsp";
-            request.getRequestDispatcher(path).forward(request, response);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String path = "/WEB-INF/views/admin/addProduct.jsp";
+        request.getRequestDispatcher(path).forward(request, response);
     }
 
     @Override
@@ -59,8 +55,8 @@ public class AddProductServlet extends HttpServlet {
         ProductDao productDao = new ProductDao();
         int n = 0;
         try {
-            n = productDao.save(product,con);
-            if (n>0) {
+            n = productDao.save(product, con);
+            if (n > 0) {
                 response.sendRedirect("productList");
             }
         } catch (SQLException e) {
