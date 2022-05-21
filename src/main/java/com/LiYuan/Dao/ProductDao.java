@@ -45,7 +45,7 @@ public class ProductDao implements IProductDao {
     public Product findById(Integer productId, Connection con) throws SQLException {
         String queryString = "select * from Product where productId=?";
         PreparedStatement pstm = con.prepareStatement(queryString);
-        pstm.setInt(1,productId);
+        pstm.setInt(1, productId);
         ResultSet rs = pstm.executeQuery();
         Product product = new Product();
         while (rs.next()) {
@@ -59,8 +59,22 @@ public class ProductDao implements IProductDao {
     }
 
     @Override
-    public List<Product> findByCategoryId(int categoryId, Connection con) {
-        return null;
+    public List<Product> findByCategoryId(int categoryId, Connection con) throws SQLException {
+        List<Product> list = new ArrayList<Product>();
+        String queryString = "select * from Product where categoryId = ?";
+        PreparedStatement pstm = con.prepareStatement(queryString);
+        pstm.setInt(1, categoryId);
+        ResultSet rs = pstm.executeQuery();
+        while (rs.next()) {
+            Product product = new Product();
+            product.setProductId(rs.getInt("ProductId"));
+            product.setProductName(rs.getString("ProductName"));
+            product.setProductDescription(rs.getString("ProductDescription"));
+            product.setPrice(rs.getDouble("price"));
+            product.setCategoryId(rs.getInt("CategoryId"));
+            list.add(product);
+        }
+        return list;
     }
 
     @Override
@@ -97,11 +111,11 @@ public class ProductDao implements IProductDao {
         return null;
     }
 
-    public byte[] getPictureById (Integer productId, Connection con) throws SQLException {
+    public byte[] getPictureById(Integer productId, Connection con) throws SQLException {
         byte[] imgByte = null;
         String sql = "select picture from product where productId=?";
         PreparedStatement pstm = con.prepareStatement(sql);
-        pstm.setInt(1,productId);
+        pstm.setInt(1, productId);
         ResultSet rs = pstm.executeQuery();
         while (rs.next()) {
             Blob blob = rs.getBlob("picture");
