@@ -17,6 +17,12 @@ public class UpdateUserServlet extends HttpServlet {
     Connection con = null;
 
     @Override
+    public void init() throws ServletException {
+        super.init();
+        con = (Connection) getServletContext().getAttribute("con");
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.getRequestDispatcher("WEB-INF/views/updateUser.jsp").forward(request,response);
@@ -30,18 +36,18 @@ public class UpdateUserServlet extends HttpServlet {
         String email = request.getParameter("email");
         String gender = request.getParameter("gender");
         Date birthDate = Date.valueOf(request.getParameter("birthDate"));
-        PrintWriter out = response.getWriter();
 
-        User u = new User(id,username,password,email,gender,birthDate);
+        User user = new User(id,username,password,email,gender,birthDate);
+        UserDao userDao = new UserDao();
         try {
-            UserDao ud = new UserDao();
-            int changeline = ud.updateUser(con,u);
-            System.out.println("受影响的行数：" + changeline + "行");
+            int n = userDao.updateUser(con,user);
+            User updatedUser = userDao.findById(con,id);
+            System.out.println("受影响的行数：" + n + "行");
 
             HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(10);
-            session.setAttribute("user", u);
-            request.getRequestDispatcher("WEB-INF/views/userInfo.jsp").forward(request, response);
+            session.removeAttribute("user");
+            session.setAttribute("user", updatedUser);
+            request.getRequestDispatcher("accountDetails").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
         }
