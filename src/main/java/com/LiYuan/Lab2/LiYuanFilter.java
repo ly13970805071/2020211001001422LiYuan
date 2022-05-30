@@ -4,8 +4,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebFilter(filterName = "YourNameFilter")
-public class YourNameFilter implements Filter {
+@WebFilter(filterName = "LiYuanFilter")
+public class LiYuanFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }
 
